@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
+import Match from "../classes/Match";
 import { Link, useHistory } from "react-router-dom";
 
 export const MatchComponent = (props) => {
+    const history = useHistory();
+
     const handleClick = () => {
-        //useHistory().push("/" + this.props.match.id);
-        console.log(props.match.id);
+        history.push("/match/" + props.match.id);
     };
 
     const match = props.match;

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import Opener from "./components/Opener";
 import TournamentTree from "./components/TournamentTree";
+import MatchSiteComponent from "./components/MatchSiteComponent";
 import Contender from "./classes/Contender";
-import { BrowserRouter, Route } from "react-router-dom";
+import Tree from "./classes/Tree";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 export const App = () => {
     const [listOfContenders, setListOfContenders] = useState([]);
+    const [tt, setTournamentTree] = useState(new Tree(listOfContenders));
 
     const getCSV = (data, fileInfo) => {
         let fetchedData = [];
@@ -15,6 +18,7 @@ export const App = () => {
             );
         }
         setListOfContenders(fetchedData);
+        setTournamentTree(new Tree(fetchedData));
     };
 
     const numberOfColumns = Math.log2(listOfContenders.length);
@@ -30,12 +34,32 @@ export const App = () => {
     };
 
     return (
-        <div className="App">
-            <Opener getCSV={getCSV} />
-            <div style={wrap}>
-                <TournamentTree listOfContenders={listOfContenders} />
-            </div>
-        </div>
+        <BrowserRouter>
+            <Switch>
+                <Route
+                    path="/"
+                    exact
+                    render={() => <Opener getCSV={getCSV} />}
+                />
+                <Route
+                    path="/tournament"
+                    exact
+                    render={() => (
+                        <div style={wrap}>
+                            <TournamentTree
+                                listOfContenders={listOfContenders}
+                                tournamentTree={tt}
+                            />
+                        </div>
+                    )}
+                />
+                <Route
+                    path="/match/:id"
+                    exact
+                    render={() => <MatchSiteComponent tournamentTree={tt} />}
+                />
+            </Switch>
+        </BrowserRouter>
     );
 };
 
