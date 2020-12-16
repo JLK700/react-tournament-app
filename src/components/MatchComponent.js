@@ -1,22 +1,23 @@
-import React, { Component } from 'react'
-import Match from '../classes/Match'
-import { Link, useHistory } from 'react-router-dom'
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
 
-export default class MatchComponent extends Component {
+export const MatchComponent = (props) => {
+    const handleClick = () => {
+        //useHistory().push("/" + this.props.match.id);
+        console.log(props.match.id);
+    };
 
-    handleClick = () => {
-        //useHistory().push('/' + this.props.match.id)
-    }
+    const match = props.match;
+    return (
+        <div style={props.stylingItem} onClick={handleClick}>
+            <p> match id: {match.id} </p>
+            {match.isEmpty() ? (
+                <p>
+                    {match.conternder1.name} vs {match.conternder2.name}
+                </p>
+            ) : null}
+        </div>
+    );
+};
 
-    render() {
-        const match = this.props.match
-        return (
-            
-             <div style={this.props.stylingItem} onClick= {this.handleClick}>
-                <p> match id:  {match.id} </p>
-                {match.isEmpty() ? <p> {match.conternder1.name} vs {match.conternder2.name}</p> : null}
-            </div>
-           
-        )
-    }
-}
+export default MatchComponent;

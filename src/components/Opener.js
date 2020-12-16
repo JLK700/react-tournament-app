@@ -1,18 +1,14 @@
-import React, { Component } from "react";
-import CSVReader from 'react-csv-reader';
+import React from "react";
+import CSVReader from "react-csv-reader";
 
-
-class Opener extends Component{
-
- render() {
+export const Opener = (props) => {
     return (
         <div>
             <p>Let The Tournament Begin!</p>
             <p>Select Tournament CSV:</p>
-            <CSVReader onFileLoaded={this.props.getCSV}/>
-        </div>      
-      );
-  }
-}
+            <CSVReader onFileLoaded={props.getCSV} />
+        </div>
+    );
+};
 
 export default Opener;
