@@ -14,6 +14,8 @@ export const Opener = (props) => {
             <p>Let The Tournament Begin!</p>
             <p>Select Tournament CSV:</p>
             <CSVReader onFileLoaded={props.getCSV} />
+            <p>Select Players CSV:</p>
+            <CSVReader onFileLoaded={props.getPlayersCSV} />
             <button onClick={onClickHandle}>Start Tournament</button>
         </div>
     );

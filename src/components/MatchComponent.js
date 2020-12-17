@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import Match from "../classes/Match";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
 
 export const MatchComponent = (props) => {
     const history = useHistory();
@@ -10,6 +9,7 @@ export const MatchComponent = (props) => {
     };
 
     const match = props.match;
+
     return (
         <div style={props.stylingItem} onClick={handleClick}>
             <p> match id: {match.id} </p>

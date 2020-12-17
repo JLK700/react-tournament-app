@@ -1,12 +1,11 @@
 import React from "react";
 import MatchComponent from "./MatchComponent";
-import Tree from "../classes/Tree";
 
 export const TournamentTree = (props) => {
     if (props.listOfContenders.length) {
+        console.log(props.players);
+
         const tournamentTree = props.tournamentTree;
-        //const tournamentTree = new Tree(props.listOfContenders);
-        //props.foo(tournamentTree);
         let threshold = props.listOfContenders.length / 2;
         let current_match = -1;
         let columnNumber = 1;

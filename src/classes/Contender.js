@@ -6,9 +6,9 @@ class Contender {
         this.url = url;
     }
 
-    sayMyName() {
-        console.log('My name is: ' + this.name)
-    }
+    isImg = () => {
+        return this.isVideo === "false";
+    };
 }
 
 export default Contender;

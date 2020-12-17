@@ -3,12 +3,14 @@ import Opener from "./components/Opener";
 import TournamentTree from "./components/TournamentTree";
 import MatchSiteComponent from "./components/MatchSiteComponent";
 import Contender from "./classes/Contender";
+import Player from "./classes/Player";
 import Tree from "./classes/Tree";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 export const App = () => {
     const [listOfContenders, setListOfContenders] = useState([]);
     const [tt, setTournamentTree] = useState(new Tree(listOfContenders));
+    const [players, setPlayers] = useState([]);
 
     const getCSV = (data, fileInfo) => {
         let fetchedData = [];
@@ -19,6 +21,14 @@ export const App = () => {
         }
         setListOfContenders(fetchedData);
         setTournamentTree(new Tree(fetchedData));
+    };
+
+    const getPlayersCSV = (data, fileInfo) => {
+        let fetchedData = [];
+        for (var i = 0; i < data.length - 1; i++) {
+            fetchedData.push(new Player(data[i][1], data[i][2]));
+        }
+        setPlayers(fetchedData);
     };
 
     const numberOfColumns = Math.log2(listOfContenders.length);
@@ -39,7 +49,9 @@ export const App = () => {
                 <Route
                     path="/"
                     exact
-                    render={() => <Opener getCSV={getCSV} />}
+                    render={() => (
+                        <Opener getCSV={getCSV} getPlayersCSV={getPlayersCSV} />
+                    )}
                 />
                 <Route
                     path="/tournament"
@@ -49,6 +61,7 @@ export const App = () => {
                             <TournamentTree
                                 listOfContenders={listOfContenders}
                                 tournamentTree={tt}
+                                players={players}
                             />
                         </div>
                     )}
@@ -56,7 +69,12 @@ export const App = () => {
                 <Route
                     path="/match/:id"
                     exact
-                    render={() => <MatchSiteComponent tournamentTree={tt} />}
+                    render={() => (
+                        <MatchSiteComponent
+                            tournamentTree={tt}
+                            players={players}
+                        />
+                    )}
                 />
             </Switch>
         </BrowserRouter>
