@@ -1,11 +1,18 @@
 class Match {
-    constructor(id, conternder1, conternder2) {
-        this.id = id
-        this.conternder1 = conternder1;
-        this.conternder2 = conternder2;
+    constructor(id, contender1, contender2) {
+        this.id = id;
+        this.contender1 = contender1;
+        this.contender2 = contender2;
+        this.contender1score = 0;
+        this.contender2score = 0;
+        this.winner = null;
     }
 
-    isEmpty = () => this.conternder1 !== null && this.conternder1 !== null
+    isEmpty = () => this.contender1 !== null && this.contender1 !== null;
+
+    isFinished = () => this.contender1score !== 0 || this.contender2score !== 0;
+
+    wasDrawn = () => this.contender1score === this.contender2score;
 }
 
 export default Match;

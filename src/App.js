@@ -19,6 +19,9 @@ export const App = () => {
                 new Contender(data[i][0], data[i][1], data[i][2], data[i][3])
             );
         }
+        // Jakbyś kiedyś miał problem czemu rzeczy się dziwnie przypisują w drzewku to to może być kandydat
+        fetchedData = fetchedData.sort(() => Math.random() - 0.5);
+
         setListOfContenders(fetchedData);
         setTournamentTree(new Tree(fetchedData));
     };

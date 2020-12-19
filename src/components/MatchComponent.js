@@ -15,7 +15,7 @@ export const MatchComponent = (props) => {
             <p> match id: {match.id} </p>
             {match.isEmpty() ? (
                 <p>
-                    {match.conternder1.name} vs {match.conternder2.name}
+                    {match.contender1.name} vs {match.contender2.name}
                 </p>
             ) : null}
         </div>
