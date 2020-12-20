@@ -5,6 +5,8 @@ export const MatchSiteComponent = (props) => {
     const history = useHistory();
     const [contender1hp, setContender1hp] = useState(100);
     const [contender2hp, setContender2hp] = useState(100);
+    let dmgDone1 = 0;
+    let dmgDone2 = 0;
 
     const radioRefs = [];
     for (let i = 0; i < props.players.length * 2; i++) {
@@ -24,6 +26,10 @@ export const MatchSiteComponent = (props) => {
     let { id } = useParams();
     let currentMatch = props.tournamentTree.tree[parseInt(id)];
 
+    const hasTounamentEnded = () => {
+        return currentMatch.id === props.tournamentTree.tree.length - 1;
+    };
+
     const goNext = () => {
         setContender1hp(100);
         setContender2hp(100);
@@ -40,6 +46,10 @@ export const MatchSiteComponent = (props) => {
         history.push("/tournament");
     };
 
+    const endTournament = () => {
+        history.push("/winner-summary");
+    };
+
     const sleep = async (ms) => {
         return new Promise((resolve) => setTimeout(resolve, ms));
     };
@@ -48,13 +58,17 @@ export const MatchSiteComponent = (props) => {
         if (a <= 0 && b <= 0) {
             setContender1hp(100);
             setContender2hp(100);
-            await sleep(1000).then(async () => {});
+            await sleep(100).then(async () => {});
             return await draw(contender1hp, contender2hp);
         } else if (a <= 0) {
-            currentMatch.winner = currentMatch.contender1;
+            currentMatch.winner = currentMatch.contender2;
+            dmgDone1 = 100 - b;
+            dmgDone2 = 100 - a;
             return;
         } else if (b <= 0) {
-            currentMatch.winner = currentMatch.contender2;
+            currentMatch.winner = currentMatch.contender1;
+            dmgDone1 = 100 - b;
+            dmgDone2 = 100 - a;
             return;
         }
 
@@ -64,7 +78,7 @@ export const MatchSiteComponent = (props) => {
         setContender1hp(a);
         setContender2hp(b);
 
-        await sleep(1000).then(async () => {
+        await sleep(100).then(async () => {
             await draw(a, b);
         });
     };
@@ -105,6 +119,42 @@ export const MatchSiteComponent = (props) => {
         }
     };
 
+    const updatePlayersStats = (c1s, c2s) => {
+        const c1 = props.tournamentTree.returnContender(
+            currentMatch.contender1.id
+        );
+        const c2 = props.tournamentTree.returnContender(
+            currentMatch.contender2.id
+        );
+
+        c1.numberOfMatches++;
+        c2.numberOfMatches++;
+
+        c1.additiveScore += c1s;
+        c2.additiveScore += c2s;
+    };
+
+    const updatePlayersDrawStats = () => {
+        console.log("dmg:");
+        console.log(dmgDone1);
+        console.log(dmgDone2);
+        const c1 = props.tournamentTree.returnContender(
+            currentMatch.contender1.id
+        );
+        const c2 = props.tournamentTree.returnContender(
+            currentMatch.contender2.id
+        );
+
+        if (dmgDone1 > dmgDone2) {
+            c1.rafaelsVariable++;
+        } else {
+            c2.rafaelsVariable++;
+        }
+
+        c1.dmg += dmgDone1;
+        c2.dmg += dmgDone2;
+    };
+
     const resolveBattle = async () => {
         const playersVotes = [];
         for (let i = 0; i < props.players.length; i++) {
@@ -135,6 +185,7 @@ export const MatchSiteComponent = (props) => {
 
         if (contender1score === contender2score) {
             await draw(contender1hp, contender2hp);
+            updatePlayersDrawStats();
         }
 
         if (
@@ -161,8 +212,14 @@ export const MatchSiteComponent = (props) => {
             }
         }
 
-        updateTree();
+        updatePlayersStats(contender1score, contender2score);
+
         console.log(props.players);
+        if (!hasTounamentEnded()) {
+            updateTree();
+        } else {
+            endTournament();
+        }
     };
 
     return (

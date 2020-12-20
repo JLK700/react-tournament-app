@@ -6,6 +6,8 @@ import Contender from "./classes/Contender";
 import Player from "./classes/Player";
 import Tree from "./classes/Tree";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import SummaryWinnerComponent from "./components/SummaryWinnerComponent";
+import GeneralSummaryComponent from "./components/GeneralSummaryComponent";
 
 export const App = () => {
     const [listOfContenders, setListOfContenders] = useState([]);
@@ -77,6 +79,20 @@ export const App = () => {
                             tournamentTree={tt}
                             players={players}
                         />
+                    )}
+                />
+                <Route
+                    path="/winner-summary"
+                    exact
+                    render={() => (
+                        <SummaryWinnerComponent tournamentTree={tt} />
+                    )}
+                />
+                <Route
+                    path="/general-summary"
+                    exact
+                    render={() => (
+                        <GeneralSummaryComponent tournamentTree={tt} />
                     )}
                 />
             </Switch>
