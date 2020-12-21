@@ -15,6 +15,7 @@ export const App = () => {
     const [players, setPlayers] = useState([]);
     const [file1Name, setFile1Name] = useState("");
     const [file2Name, setFile2Name] = useState("");
+    
 
     const getCSV = (data, fileInfo) => {
         let fetchedData = [];
@@ -23,7 +24,6 @@ export const App = () => {
                 new Contender(data[i][0], data[i][1], data[i][2], data[i][3])
             );
         }
-        // Jakbyś kiedyś miał problem czemu rzeczy się dziwnie przypisują w drzewku to to może być kandydat
         fetchedData = fetchedData.sort(() => Math.random() - 0.5);
 
         setListOfContenders(fetchedData);
@@ -46,11 +46,28 @@ export const App = () => {
         columnTemplate += Math.floor(100 / numberOfColumns).toString() + "% ";
     }
     let wrap = {
+        width: "100%",
+        minHeight: "-webkit-fill-available",
         display: "grid",
         gridTemplateRows: "auto",
         gridTemplateColumns: columnTemplate,
         rowGap: "5px",
+        backgroundColor: '#343434',
+        color: '#fcfaf1'
     };
+    let s = {
+        width: "100%",
+        minHeight: "100vh",
+        display: "flex",
+        flexFlow: "column",
+        alignItems: "center",
+        backgroundColor: '#343434',
+        color: '#fcfaf1'
+    };
+    let p = {
+        fontSize: "10vh",
+        marginBottom: "3vh"
+    }
 
     return (
         <BrowserRouter>
@@ -66,13 +83,17 @@ export const App = () => {
                     path="/tournament"
                     exact
                     render={() => (
-                        <div style={wrap}>
+                        <div style={s}>
+                            <p style={p}>Tournament</p>
+                            <div style={wrap}>
                             <TournamentTree
                                 listOfContenders={listOfContenders}
                                 tournamentTree={tt}
                                 players={players}
                             />
+                            </div>
                         </div>
+                        
                     )}
                 />
                 <Route

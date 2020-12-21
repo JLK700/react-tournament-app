@@ -7,15 +7,20 @@ import OpenerStyle from "../styles/opener-style.module.css";
 export const Opener = (props) => {
     const history = useHistory();
 
-    const onClickHandle = () => {
+    const startTournament = () => {
         history.push("/tournament");
     };
 
-    console.log(props.n1)
-    console.log(props.n2)
+    const alertMissingFiles = () => {
+        if (props.n1 === "") {
+            alert('Please enter tournament CSV')
+        } else if (props.n2 === "") {
+            alert('Please enter players CSV')
+        }
+    }
 
     return (
-        <div className={` bg-gray-400 ${OpenerStyle.container}`}>
+        <div className={OpenerStyle.container}>
             <div className={OpenerStyle.openingTitle}>
                 <p>Let The Tournament Begin!</p>
             </div>
@@ -43,7 +48,9 @@ export const Opener = (props) => {
                     </div>) : null}
             </div>
             <div className={OpenerStyle.openingButton}>
-                <button onClick={onClickHandle}>Start Tournament</button>
+                {props.n1 !== "" && props.n2 !== "" ? (<div>
+                    <p><button className={`rounded-md animate-bounce ${OpenerStyle.startTournamentButton}`} onClick={startTournament}>Start Tournament</button></p>
+                    </div>) : <button className={`rounded-md ${OpenerStyle.startTournamentButton}`} onClick={alertMissingFiles}>Start Tournament</button>}
             </div>
         </div>
     );

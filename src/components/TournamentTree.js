@@ -1,5 +1,7 @@
 import React from "react";
 import MatchComponent from "./MatchComponent";
+import "../styles/main.css";
+import TournamentTreeStyle from "../styles/tournament-tree-style.module.css";
 
 export const TournamentTree = (props) => {
     if (props.listOfContenders.length) {
@@ -9,7 +11,8 @@ export const TournamentTree = (props) => {
         let threshold = props.listOfContenders.length / 2;
         let current_match = -1;
         let columnNumber = 1;
-        return tournamentTree.tree.map((match, index) => {
+        return (
+            tournamentTree.tree.map((match, index) => {
             current_match++;
 
             let stylingItem = {
@@ -26,9 +29,11 @@ export const TournamentTree = (props) => {
                 ).toString(),
                 justifySelf: "center",
                 alignSelf: "center",
-                border: "1px solid black",
+                border: "3px solid #e6b31e",
                 width: "10rem",
+                height: "4rem",
                 paddingLeft: "5px",
+                margin: "5px",
             };
 
             if (current_match === threshold - 1) {
@@ -44,7 +49,7 @@ export const TournamentTree = (props) => {
                     match={match}
                 />
             );
-        });
+        }));
     } else {
         return (
             <div>

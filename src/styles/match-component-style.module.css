@@ -1,0 +1,24 @@
+.matchId {
+    position: relative;
+    float: right;
+    font-size: 1vh;
+    margin-right: 1.5%;
+}
+
+.matchContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    margin-top: 2.5%;
+}
+
+.matchContender {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5%;
+}
+
+.b {
+    font-weight: bold;
+    color: #e6b31e;
+}
