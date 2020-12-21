@@ -13,6 +13,8 @@ export const App = () => {
     const [listOfContenders, setListOfContenders] = useState([]);
     const [tt, setTournamentTree] = useState(new Tree(listOfContenders));
     const [players, setPlayers] = useState([]);
+    const [file1Name, setFile1Name] = useState("");
+    const [file2Name, setFile2Name] = useState("");
 
     const getCSV = (data, fileInfo) => {
         let fetchedData = [];
@@ -26,6 +28,7 @@ export const App = () => {
 
         setListOfContenders(fetchedData);
         setTournamentTree(new Tree(fetchedData));
+        setFile1Name(fileInfo.name)
     };
 
     const getPlayersCSV = (data, fileInfo) => {
@@ -34,6 +37,7 @@ export const App = () => {
             fetchedData.push(new Player(data[i][1], data[i][2]));
         }
         setPlayers(fetchedData);
+        setFile2Name(fileInfo.name)
     };
 
     const numberOfColumns = Math.log2(listOfContenders.length);
@@ -55,7 +59,7 @@ export const App = () => {
                     path="/"
                     exact
                     render={() => (
-                        <Opener getCSV={getCSV} getPlayersCSV={getPlayersCSV} />
+                        <Opener getCSV={getCSV} getPlayersCSV={getPlayersCSV} n1={file1Name} n2={file2Name}/>
                     )}
                 />
                 <Route

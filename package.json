@@ -14,10 +14,12 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm run watch:style && react-scripts start",
+    "build": "npm run build:style && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:style": "postcss src/styles/tailwind.css -o src/styles/main.css",
+    "watch:style": "postcss src/styles/tailwind.css -o src/styles/main.css"
   },
   "eslintConfig": {
     "extends": [
@@ -38,11 +40,15 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^9.8.6",
     "css-loader": "^5.0.1",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.3.0",
+    "postcss": "^8.2.1",
+    "postcss-cli": "^8.3.1",
     "prettier": "^2.2.1",
-    "style-loader": "^2.0.0"
+    "style-loader": "^2.0.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2"
   }
 }
