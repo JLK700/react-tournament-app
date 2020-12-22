@@ -7,6 +7,8 @@ export const MatchSiteComponent = (props) => {
     const history = useHistory();
     const [contender1hp, setContender1hp] = useState(100);
     const [contender2hp, setContender2hp] = useState(100);
+    const [contender1won, setContender1won] = useState(false);
+    const [contender2won, setContender2won] = useState(false);
     let dmgDone1 = 0;
     let dmgDone2 = 0;
 
@@ -38,25 +40,33 @@ export const MatchSiteComponent = (props) => {
         return currentMatch.id === props.tournamentTree.tree.length - 1;
     };
 
+    const endTournament = () => {
+        history.push("/winner-summary");
+    };
+
     const goNext = () => {
         setContender1hp(100);
         setContender2hp(100);
+        setContender1won(false);
+        setContender2won(false);
         resetRadio();
-        history.push("/match/" + String(parseInt(currentMatch.id) + 1));
+        if (!hasTounamentEnded()) {
+            history.push("/match/" + String(parseInt(currentMatch.id) + 1));
+        } else {
+            endTournament();
+        }
     };
 
     const goPrev = () => {
         setContender1hp(100);
         setContender2hp(100);
+        setContender1won(false);
+        setContender2won(false);
         history.push("/match/" + String(parseInt(currentMatch.id) - 1));
     };
 
     const goBack = () => {
         history.push("/tournament");
-    };
-
-    const endTournament = () => {
-        history.push("/winner-summary");
     };
 
     const sleep = async (ms) => {
@@ -71,11 +81,13 @@ export const MatchSiteComponent = (props) => {
             return await draw(contender1hp, contender2hp);
         } else if (a <= 0) {
             currentMatch.winner = currentMatch.contender2;
+            setContender2won(true);
             dmgDone1 = 100 - b;
             dmgDone2 = 100 - a;
             return;
         } else if (b <= 0) {
             currentMatch.winner = currentMatch.contender1;
+            setContender1won(true);
             dmgDone1 = 100 - b;
             dmgDone2 = 100 - a;
             return;
@@ -87,7 +99,7 @@ export const MatchSiteComponent = (props) => {
         setContender1hp(a);
         setContender2hp(b);
 
-        await sleep(100).then(async () => {
+        await sleep(10).then(async () => {
             await draw(a, b);
         });
     };
@@ -214,6 +226,7 @@ export const MatchSiteComponent = (props) => {
             currentMatch.winner === currentMatch.contender1
         ) {
             currentMatch.winner = currentMatch.contender1;
+            setContender1won(true);
 
             if (currentMatch.contender1score !== currentMatch.contender2score) {
                 setContender2hp(0);
@@ -236,6 +249,7 @@ export const MatchSiteComponent = (props) => {
             currentMatch.winner === currentMatch.contender2
         ) {
             currentMatch.winner = currentMatch.contender2;
+            setContender2won(true);
 
             if (currentMatch.contender1score !== currentMatch.contender2score) {
                 setContender1hp(0);
@@ -260,8 +274,6 @@ export const MatchSiteComponent = (props) => {
         console.log(props.players);
         if (!hasTounamentEnded()) {
             updateTree();
-        } else {
-            endTournament();
         }
     };
 
@@ -295,7 +307,13 @@ export const MatchSiteComponent = (props) => {
 
             {currentMatch.contender1 !== null ? (
                 <div className={MatchSiteComponentStyle.contender1}>
-                    <p className={MatchSiteComponentStyle.contenderName}>
+                    <p
+                        className={
+                            contender1won
+                                ? MatchSiteComponentStyle.contenderNameBoosted
+                                : MatchSiteComponentStyle.contenderName
+                        }
+                    >
                         {currentMatch.contender1.name}
                     </p>
                     {currentMatch.contender1.isImg() ? (
@@ -308,7 +326,7 @@ export const MatchSiteComponent = (props) => {
                     ) : (
                         <p>
                             <iframe
-                                className={MatchSiteComponentStyle.image}
+                                className={MatchSiteComponentStyle.frame}
                                 src={currentMatch.contender1.url}
                                 allowFullScreen
                             ></iframe>
@@ -368,7 +386,13 @@ export const MatchSiteComponent = (props) => {
 
             {currentMatch.contender2 !== null ? (
                 <div className={MatchSiteComponentStyle.contender2}>
-                    <p className={MatchSiteComponentStyle.contenderName}>
+                    <p
+                        className={
+                            contender2won
+                                ? MatchSiteComponentStyle.contenderNameBoosted
+                                : MatchSiteComponentStyle.contenderName
+                        }
+                    >
                         {currentMatch.contender2.name}
                     </p>
                     {currentMatch.contender2.isImg() ? (
@@ -381,7 +405,7 @@ export const MatchSiteComponent = (props) => {
                     ) : (
                         <p>
                             <iframe
-                                className={MatchSiteComponentStyle.image}
+                                className={MatchSiteComponentStyle.frame}
                                 src={currentMatch.contender2.url}
                                 allowFullScreen
                             ></iframe>

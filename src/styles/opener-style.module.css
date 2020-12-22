@@ -59,7 +59,7 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    pointer-events:none;
+    pointer-events: none;
 }
 
 .startTournamentButton {
@@ -70,6 +70,7 @@
     font-size: 5vh;
 }
 
-.startTournamentButton:hover, .x:hover {
+.startTournamentButton:hover,
+.x:hover {
     background-color: #e6a31e;
 }

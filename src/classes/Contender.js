@@ -16,7 +16,8 @@ class Contender {
 
     avgScore = () => {
         if (this.numberOfMatches !== 0) {
-            return this.additiveScore / this.numberOfMatches;
+            let num = this.additiveScore / this.numberOfMatches;
+            return Math.round(num * 100) / 100;
         }
         return 0;
     };

@@ -75,7 +75,14 @@
     margin-bottom: 5%;
     height: 58vh;
     max-width: 20vw;
-    /*width: 20vw; */
+}
+
+.frame {
+    border: 7px solid #e6b31e;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 34.56rem;
+    height: 19.44rem;
 }
 
 .contenderName {
@@ -124,4 +131,9 @@ progress::-webkit-progress-value {
 
 progress::-webkit-progress-bar {
     background-color: maroon;
+}
+
+.smallButton:hover,
+.bigButton:hover {
+    background-color: #e6a31e;
 }
