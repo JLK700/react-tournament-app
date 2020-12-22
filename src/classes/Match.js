@@ -8,7 +8,7 @@ class Match {
         this.winner = null;
     }
 
-    isEmpty = () => this.contender1 !== null && this.contender2 !== null;
+    isActive = () => this.contender1 !== null && this.contender2 !== null;
 
     isFinished = () => this.contender1score !== 0 || this.contender2score !== 0;
 

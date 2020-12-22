@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import "../styles/main.css";
+import MatchSiteComponentStyle from "../styles/match-site-component-style.module.css";
 
 export const MatchSiteComponent = (props) => {
     const history = useHistory();
@@ -12,6 +14,12 @@ export const MatchSiteComponent = (props) => {
     for (let i = 0; i < props.players.length * 2; i++) {
         radioRefs.push(React.createRef());
     }
+
+    const resetRadio = () => {
+        for (let i = 0; i < radioRefs.length; i++) {
+            radioRefs[i].current.checked = false;
+        }
+    };
 
     const levels = [];
     let level = (props.tournamentTree.tree.length + 1) / 2;
@@ -33,6 +41,7 @@ export const MatchSiteComponent = (props) => {
     const goNext = () => {
         setContender1hp(100);
         setContender2hp(100);
+        resetRadio();
         history.push("/match/" + String(parseInt(currentMatch.id) + 1));
     };
 
@@ -42,7 +51,7 @@ export const MatchSiteComponent = (props) => {
         history.push("/match/" + String(parseInt(currentMatch.id) - 1));
     };
 
-    const comeBack = () => {
+    const goBack = () => {
         history.push("/tournament");
     };
 
@@ -155,6 +164,18 @@ export const MatchSiteComponent = (props) => {
         c2.dmg += dmgDone2;
     };
 
+    const kill = (a, b) => {
+        const c1 = props.tournamentTree.returnContender(
+            currentMatch.contender1.id
+        );
+        const c2 = props.tournamentTree.returnContender(
+            currentMatch.contender2.id
+        );
+
+        c1.dmg += a;
+        c2.dmg += b;
+    };
+
     const resolveBattle = async () => {
         const playersVotes = [];
         for (let i = 0; i < props.players.length; i++) {
@@ -194,6 +215,17 @@ export const MatchSiteComponent = (props) => {
         ) {
             currentMatch.winner = currentMatch.contender1;
 
+            if (currentMatch.contender1score !== currentMatch.contender2score) {
+                setContender2hp(0);
+                kill(100, 0);
+            }
+
+            if (currentMatch.contender1score === currentMatch.contender2score) {
+                setContender2hp(100 - dmgDone1);
+                setContender2hp(100 - dmgDone1);
+                setContender2hp(100 - dmgDone1);
+            }
+
             for (let i = 0; i < props.players.length; i++) {
                 if (playersVotes[i] === 1) {
                     props.players[i].correctAnswers++;
@@ -204,6 +236,17 @@ export const MatchSiteComponent = (props) => {
             currentMatch.winner === currentMatch.contender2
         ) {
             currentMatch.winner = currentMatch.contender2;
+
+            if (currentMatch.contender1score !== currentMatch.contender2score) {
+                setContender1hp(0);
+                kill(0, 100);
+            }
+
+            if (currentMatch.contender1score === currentMatch.contender2score) {
+                setContender1hp(100 - dmgDone2);
+                setContender1hp(100 - dmgDone2);
+                setContender1hp(100 - dmgDone2);
+            }
 
             for (let i = 0; i < props.players.length; i++) {
                 if (playersVotes[i] === 2) {
@@ -223,71 +266,129 @@ export const MatchSiteComponent = (props) => {
     };
 
     return (
-        <div>
-            <p>id: {currentMatch.id}</p>
-            {currentMatch.isEmpty() ? (
-                <div>
-                    <div>
-                        <p>contender1 :{currentMatch.contender1.name}</p>
-                        {currentMatch.contender1.isImg() ? (
-                            <p>
-                                <img src={currentMatch.contender1.url}></img>
-                            </p>
-                        ) : (
-                            <p>
-                                <iframe
-                                    src={currentMatch.contender1.url}
-                                    allowFullScreen
-                                ></iframe>
-                            </p>
-                        )}
-                        <progress max="100" value={contender1hp}></progress>
-                        <p>{contender1hp}</p>
-                    </div>
-                    <div>
-                        <p>contender2 :{currentMatch.contender2.name}</p>
-                        {currentMatch.contender2.isImg() ? (
-                            <p>
-                                <img src={currentMatch.contender2.url}></img>
-                            </p>
-                        ) : (
-                            <p>
-                                <iframe
-                                    src={currentMatch.contender2.url}
-                                    allowFullScreen
-                                ></iframe>
-                            </p>
-                        )}
-                        <progress max="100" value={contender2hp}></progress>
-                        <p>{contender2hp}</p>
-                    </div>
+        <div className={MatchSiteComponentStyle.container}>
+            <div className={MatchSiteComponentStyle.matchTitle}>
+                <button
+                    className={`rounded-md ${MatchSiteComponentStyle.smallButton}`}
+                    onClick={goPrev}
+                >
+                    Previous
+                </button>
 
-                    {props.players.map((player, index) => (
-                        <div>
-                            <p>{player.name}</p>
-                            <div>
+                {giveLevel(currentMatch.id) === levels.length - 1 ? (
+                    <p>Final</p>
+                ) : giveLevel(currentMatch.id) === levels.length - 2 ? (
+                    <p>Semifinal</p>
+                ) : giveLevel(currentMatch.id) === levels.length - 3 ? (
+                    <p>Quaterfinal</p>
+                ) : (
+                    <p>Match: {currentMatch.id}</p>
+                )}
+
+                <button
+                    className={`rounded-md ${MatchSiteComponentStyle.smallButton}`}
+                    onClick={goBack}
+                >
+                    Back to Tournament Tree
+                </button>
+            </div>
+
+            {currentMatch.contender1 !== null ? (
+                <div className={MatchSiteComponentStyle.contender1}>
+                    <p className={MatchSiteComponentStyle.contenderName}>
+                        {currentMatch.contender1.name}
+                    </p>
+                    {currentMatch.contender1.isImg() ? (
+                        <p>
+                            <img
+                                className={MatchSiteComponentStyle.image}
+                                src={currentMatch.contender1.url}
+                            ></img>
+                        </p>
+                    ) : (
+                        <p>
+                            <iframe
+                                className={MatchSiteComponentStyle.image}
+                                src={currentMatch.contender1.url}
+                                allowFullScreen
+                            ></iframe>
+                        </p>
+                    )}
+                    <progress max="100" value={contender1hp}></progress>
+                    <p>{contender1hp}</p>
+                </div>
+            ) : null}
+
+            {currentMatch.isActive() ? (
+                <div className={MatchSiteComponentStyle.players}>
+                    <div
+                        className={
+                            MatchSiteComponentStyle.radioButtonsContainer
+                        }
+                    >
+                        {props.players.map((player, index) => (
+                            <div
+                                className={MatchSiteComponentStyle.singlePlayer}
+                            >
                                 <input
                                     type="radio"
                                     name={player.name}
                                     value={currentMatch.contender1.name}
                                     ref={radioRefs[2 * index]}
-                                    defaultChecked="false"
+                                    className="form-checkbox h-6 w-6"
                                 ></input>
+                                <p>{player.name}</p>
                                 <input
                                     type="radio"
                                     name={player.name}
                                     value={currentMatch.contender2.name}
                                     ref={radioRefs[2 * index + 1]}
-                                    defaultChecked="false"
+                                    className="form-checkbox h-6 w-6"
                                 ></input>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
 
-                    <button onClick={goNext}>Thank you, next</button>
-                    <button onClick={goPrev}>Thank you, prev</button>
-                    <button onClick={comeBack}>GO back</button>
-                    <button onClick={resolveBattle}> BATTLE </button>
+                    <div className={MatchSiteComponentStyle.buttons}>
+                        <button
+                            className={`rounded-md ${MatchSiteComponentStyle.bigButton}`}
+                            onClick={goNext}
+                        >
+                            Next
+                        </button>
+                        <button
+                            className={`rounded-md ${MatchSiteComponentStyle.bigButton}`}
+                            onClick={resolveBattle}
+                        >
+                            BATTLE
+                        </button>
+                    </div>
+                </div>
+            ) : null}
+
+            {currentMatch.contender2 !== null ? (
+                <div className={MatchSiteComponentStyle.contender2}>
+                    <p className={MatchSiteComponentStyle.contenderName}>
+                        {currentMatch.contender2.name}
+                    </p>
+                    {currentMatch.contender2.isImg() ? (
+                        <p>
+                            <img
+                                className={MatchSiteComponentStyle.image}
+                                src={currentMatch.contender2.url}
+                            ></img>
+                        </p>
+                    ) : (
+                        <p>
+                            <iframe
+                                className={MatchSiteComponentStyle.image}
+                                src={currentMatch.contender2.url}
+                                allowFullScreen
+                            ></iframe>
+                        </p>
+                    )}
+                    <progress max="100" value={contender2hp}></progress>
+                    <p>{contender2hp}</p>
                 </div>
             ) : null}
         </div>
