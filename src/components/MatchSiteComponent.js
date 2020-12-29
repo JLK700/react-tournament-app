@@ -77,7 +77,7 @@ export const MatchSiteComponent = (props) => {
         if (a <= 0 && b <= 0) {
             setContender1hp(100);
             setContender2hp(100);
-            await sleep(100).then(async () => {});
+            await sleep(10).then(async () => {});
             return await draw(contender1hp, contender2hp);
         } else if (a <= 0) {
             currentMatch.winner = currentMatch.contender2;
