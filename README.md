@@ -41,7 +41,7 @@ tournament.
 
 ## Future work
 
-#### Bugfixes to fix:
+#### Bugs to fix:
 - fixed size of single match rectangle in tourmanet tree
 - possibility of changing the match site before the match ends
 - routing problems
