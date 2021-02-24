@@ -1,13 +1,12 @@
-# Images Tournament App t
+# Images / Videos Tournament App
 
 ## Description
 
 Web application which can help you and your friends create and conduct
-single elimination tournament where every contender is represented by image or
+single elimination tournament where every contender is represented by an image or
 video.  
-Just vote for your favorite contestant and let draws be broken by RNG god mercy.  
-After all you'll be provided with detailed statistics and information about
-tournament.
+Just vote for your favorite contestant and let draws be broken by RNG.  
+After all you'll be provided with detailed statistics and information about a tournament.
 
 
 #### Technologies
@@ -19,20 +18,25 @@ tournament.
 ## How to use
 #### Starting the Tournament
 
-  How to start tournament
+  Select required CSVs and press start tournament button.
 
 #### Conducting the Tournament
 
-  How to conduct tournament
+  For each match select vote of each player and if there is a draw winner will be determined randomly.
 
 
 #### Finalizing the Tournament and Final Statistics
 
-  Few words about ending tournament end how to understand final statistics
+  Statistics after ending the tournament:
+- winner path and scores
+- amount of games and avg dmg for every contender
 
 #### CSVs details
+
+Templates for both required types of CSV can be found in CSVs folder
 - Tournament CSV
 - Player CSV
+
 
 ## Acknowledgements
 - Karol S. for general frontend mentorship and code reviews.
@@ -42,7 +46,7 @@ tournament.
 ## Future work
 
 #### Bugs to fix:
-- fixed size of single match rectangle in tourmanet tree
+- fixed size of single match rectangle in tournament tree
 - possibility of changing the match site before the match ends
 - routing problems
 - currently CSV structure isn't checked before tournament starts.
