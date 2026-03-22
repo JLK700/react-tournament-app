@@ -73,23 +73,23 @@ export const MatchSiteComponent = (props) => {
         return new Promise((resolve) => setTimeout(resolve, ms));
     };
 
-    const draw = async (a, b) => {
+    const draw = async (a, b, contender1StartingHp, contender2StartingHp) => {
         if (a <= 0 && b <= 0) {
             setContender1hp(100);
             setContender2hp(100);
-            await sleep(10).then(async () => {});
-            return await draw(contender1hp, contender2hp);
+            await sleep(1000).then(async () => {});
+            return await draw(contender1hp, contender2hp, 100, 100);
         } else if (a <= 0) {
             currentMatch.winner = currentMatch.contender2;
             setContender2won(true);
-            dmgDone1 = 100 - b;
-            dmgDone2 = 100 - a;
+            dmgDone1 = contender2StartingHp - b;
+            dmgDone2 = contender1StartingHp - a;
             return;
         } else if (b <= 0) {
             currentMatch.winner = currentMatch.contender1;
             setContender1won(true);
-            dmgDone1 = 100 - b;
-            dmgDone2 = 100 - a;
+            dmgDone1 = contender2StartingHp - b;
+            dmgDone2 = contender1StartingHp - a;
             return;
         }
 
@@ -99,8 +99,8 @@ export const MatchSiteComponent = (props) => {
         setContender1hp(a);
         setContender2hp(b);
 
-        await sleep(10).then(async () => {
-            await draw(a, b);
+        await sleep(1000).then(async () => {
+            await draw(a, b, contender1StartingHp, contender2StartingHp);
         });
     };
 
@@ -217,27 +217,48 @@ export const MatchSiteComponent = (props) => {
         currentMatch.contender2score = contender2score;
 
         if (contender1score === contender2score) {
-            await draw(contender1hp, contender2hp);
+            await draw(contender1hp, contender2hp, 100, 100);
+            updatePlayersDrawStats();
+        } else if (contender1score === 0 && contender2score === 3) {
+            await draw(contender1hp, contender2hp + 16, 100, 116);
+            updatePlayersDrawStats();
+        } else if (contender1score === 0 && contender2score === 2) {
+            await draw(contender1hp, contender2hp + 10, 100, 110);
+            updatePlayersDrawStats();
+        } else if ((contender1score === 1 && contender2score === 2) || (contender1score === 0 && contender2score === 1)) {
+            await draw(contender1hp, contender2hp + 7, 100, 107);
+            updatePlayersDrawStats();
+        } else if ((contender1score === 2 && contender2score === 1) || (contender1score === 1 && contender2score === 0)) {
+            // 67% chance
+            await draw(contender1hp + 7, contender2hp, 107, 100);
+            updatePlayersDrawStats();
+        } else if (contender1score === 2 && contender2score === 0) {
+            // 75% chance
+            await draw(contender1hp + 10, contender2hp, 110, 100);
+            updatePlayersDrawStats();
+        } else if (contender1score === 3 && contender2score === 0) {
+            // 90% chance
+            await draw(contender1hp + 16, contender2hp, 116, 100);
             updatePlayersDrawStats();
         }
 
         if (
-            contender1score > contender2score ||
+            // contender1score > contender2score ||
             currentMatch.winner === currentMatch.contender1
         ) {
             currentMatch.winner = currentMatch.contender1;
             setContender1won(true);
 
-            if (currentMatch.contender1score !== currentMatch.contender2score) {
-                setContender2hp(0);
-                kill(100, 0);
-            }
+            // if (currentMatch.contender1score !== currentMatch.contender2score) {
+            //     setContender2hp(0);
+            //     kill(100, 0);
+            // }
 
-            if (currentMatch.contender1score === currentMatch.contender2score) {
-                setContender2hp(100 - dmgDone1);
-                setContender2hp(100 - dmgDone1);
-                setContender2hp(100 - dmgDone1);
-            }
+            // if (currentMatch.contender1score === currentMatch.contender2score) {
+            //     setContender2hp(100 - dmgDone1);
+            //     setContender2hp(100 - dmgDone1);
+            //     setContender2hp(100 - dmgDone1);
+            // }
 
             for (let i = 0; i < props.players.length; i++) {
                 if (playersVotes[i] === 1) {
@@ -245,22 +266,22 @@ export const MatchSiteComponent = (props) => {
                 }
             }
         } else if (
-            contender1score < contender2score ||
+            // contender1score < contender2score ||
             currentMatch.winner === currentMatch.contender2
         ) {
             currentMatch.winner = currentMatch.contender2;
             setContender2won(true);
 
-            if (currentMatch.contender1score !== currentMatch.contender2score) {
-                setContender1hp(0);
-                kill(0, 100);
-            }
+            // if (currentMatch.contender1score !== currentMatch.contender2score) {
+            //     setContender1hp(0);
+            //     kill(0, 100);
+            // }
 
-            if (currentMatch.contender1score === currentMatch.contender2score) {
-                setContender1hp(100 - dmgDone2);
-                setContender1hp(100 - dmgDone2);
-                setContender1hp(100 - dmgDone2);
-            }
+            // if (currentMatch.contender1score === currentMatch.contender2score) {
+            //     setContender1hp(100 - dmgDone2);
+            //     setContender1hp(100 - dmgDone2);
+            //     setContender1hp(100 - dmgDone2);
+            // }
 
             for (let i = 0; i < props.players.length; i++) {
                 if (playersVotes[i] === 2) {

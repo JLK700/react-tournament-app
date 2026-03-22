@@ -11,7 +11,7 @@ class Contender {
     }
 
     isImg = () => {
-        return this.isVideo === "false";
+        return this.isVideo === "FALSE";
     };
 
     avgScore = () => {
