@@ -18,12 +18,12 @@
 
 .button {
     grid-column: 3/4;
+    justify-self: center;
     background-color: #e6b31e;
     color: #343434;
-    width: 8vw;
-    height: 4vh;
+    padding: 1.5vh 1.5vw;
     font-size: 2vh;
-    margin-left: 4vw;
+    white-space: nowrap;
 }
 
 .button:hover {

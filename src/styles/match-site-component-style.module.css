@@ -116,9 +116,16 @@
 
 .singlePlayer {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     width: 15vw;
     margin: 20px;
+}
+
+.singlePlayer p {
+    flex: 1;
+    margin: 0;
+    text-align: center;
 }
 
 progress {

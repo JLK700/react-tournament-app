@@ -65,9 +65,9 @@
 .startTournamentButton {
     background-color: #e6b31e;
     color: #343434;
-    width: 25vw;
-    height: 10vh;
-    font-size: 5vh;
+    padding: 2vh 4vw;
+    font-size: 4vh;
+    white-space: nowrap;
 }
 
 .startTournamentButton:hover,
