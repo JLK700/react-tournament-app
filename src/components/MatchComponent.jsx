@@ -1,13 +1,11 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import "../styles/main.css";
+import { useNavigate } from "react-router-dom";
 import MatchComponentStyle from "../styles/match-component-style.module.css";
 
 export const MatchComponent = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleClick = () => {
-        history.push("/match/" + props.match.id);
+        navigate("/match/" + props.match.id);
     };
 
     const match = props.match;

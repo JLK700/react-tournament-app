@@ -2,31 +2,38 @@
   "name": "tornament_web_application",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.3.0",
-    "postcss-cli-simple": "^3.1.0",
-    "react": "^17.0.1",
-    "react-csv-reader": "^3.1.1",
-    "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.1",
-    "web-vitals": "^0.2.4"
-  },
+  "type": "module",
   "scripts": {
-    "start": "npm run watch:style && react-scripts start",
-    "build": "npm run build:style && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:style": "postcss src/styles/tailwind.css -o src/styles/main.css",
-    "watch:style": "postcss src/styles/tailwind.css -o src/styles/main.css"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{js,jsx,css}\""
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "papaparse": "^5.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@tailwindcss/vite": "^4.1.8",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^4.5.2",
+    "eslint": "^9.28.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.5.3",
+    "tailwindcss": "^4.1.8",
+    "vite": "^7.0.0",
+    "vitest": "^3.2.2"
   },
   "browserslist": {
     "production": [
@@ -39,17 +46,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "autoprefixer": "^9.8.6",
-    "css-loader": "^5.0.1",
-    "eslint": "^7.15.0",
-    "eslint-config-prettier": "^7.0.0",
-    "eslint-plugin-prettier": "^3.3.0",
-    "postcss": "^8.2.1",
-    "postcss-cli": "^8.3.1",
-    "prettier": "^2.2.1",
-    "style-loader": "^2.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2"
   }
 }

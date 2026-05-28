@@ -1,17 +1,15 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import "../styles/main.css";
+import { useNavigate } from "react-router-dom";
 import GeneralSummaryComponentStyle from "../styles/general-summary-component-style.module.css";
 
 export const GeneralSummaryComponent = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const clickHandle = () => {
-        history.push("/");
+        navigate("/");
     };
 
     const goBack = () => {
-        history.push("/tournament");
+        navigate("/tournament");
     };
 
     const onlyPitcures = () => {

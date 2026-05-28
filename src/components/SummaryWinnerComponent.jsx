@@ -1,23 +1,21 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import "../styles/main.css";
+import { useNavigate } from "react-router-dom";
 import SummaryWinnerComponentStyle from "../styles/summary-winner-component-style.module.css";
 
 export const SummaryWinnerComponent = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const winner =
         props.tournamentTree.tree[props.tournamentTree.tree.length - 1].winner;
 
     const proceed = () => {
-        history.push("/general-summary");
+        navigate("/general-summary");
     };
 
     const endTournament = () => {
-        history.push("/");
+        navigate("/");
     };
 
     const goBack = () => {
-        history.push("/tournament");
+        navigate("/tournament");
     };
 
     let size = Math.log2(props.tournamentTree.tree.length + 1);
@@ -50,7 +48,7 @@ export const SummaryWinnerComponent = (props) => {
                 )}
             </div>
             <div className={SummaryWinnerComponentStyle.winnerRight}>
-                {props.tournamentTree.tree.map((match, index) =>
+                {props.tournamentTree.tree.map((match) =>
                     match.contender1 === winner ? (
                         <div
                             className={

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Opener from "./components/Opener";
 import TournamentTree from "./components/TournamentTree";
 import MatchSiteComponent from "./components/MatchSiteComponent";
 import Contender from "./classes/Contender";
 import Player from "./classes/Player";
 import Tree from "./classes/Tree";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SummaryWinnerComponent from "./components/SummaryWinnerComponent";
 import GeneralSummaryComponent from "./components/GeneralSummaryComponent";
 
@@ -57,56 +57,47 @@ export const App = () => {
 
     return (
         <BrowserRouter>
-            <Switch>
+            <Routes>
                 <Route
                     path="/"
-                    exact
-                    render={() => (
+                    element={
                         <Opener
                             getCSV={getCSV}
                             getPlayersCSV={getPlayersCSV}
                             n1={file1Name}
                             n2={file2Name}
                         />
-                    )}
+                    }
                 />
                 <Route
                     path="/tournament"
-                    exact
-                    render={() => (
+                    element={
                         <TournamentTree
                             listOfContenders={listOfContenders}
                             tournamentTree={tt}
                             players={players}
                             styleee={wrap}
                         />
-                    )}
+                    }
                 />
                 <Route
                     path="/match/:id"
-                    exact
-                    render={() => (
+                    element={
                         <MatchSiteComponent
                             tournamentTree={tt}
                             players={players}
                         />
-                    )}
+                    }
                 />
                 <Route
                     path="/winner-summary"
-                    exact
-                    render={() => (
-                        <SummaryWinnerComponent tournamentTree={tt} />
-                    )}
+                    element={<SummaryWinnerComponent tournamentTree={tt} />}
                 />
                 <Route
                     path="/general-summary"
-                    exact
-                    render={() => (
-                        <GeneralSummaryComponent tournamentTree={tt} />
-                    )}
+                    element={<GeneralSummaryComponent tournamentTree={tt} />}
                 />
-            </Switch>
+            </Routes>
         </BrowserRouter>
     );
 };

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import "../styles/main.css";
+import { useParams, useNavigate } from "react-router-dom";
 import MatchSiteComponentStyle from "../styles/match-site-component-style.module.css";
 
 export const MatchSiteComponent = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [contender1hp, setContender1hp] = useState(100);
     const [contender2hp, setContender2hp] = useState(100);
     const [contender1won, setContender1won] = useState(false);
@@ -41,7 +40,7 @@ export const MatchSiteComponent = (props) => {
     };
 
     const endTournament = () => {
-        history.push("/winner-summary");
+        navigate("/winner-summary");
     };
 
     const goNext = () => {
@@ -51,7 +50,7 @@ export const MatchSiteComponent = (props) => {
         setContender2won(false);
         resetRadio();
         if (!hasTounamentEnded()) {
-            history.push("/match/" + String(parseInt(currentMatch.id) + 1));
+            navigate("/match/" + String(parseInt(currentMatch.id) + 1));
         } else {
             endTournament();
         }
@@ -62,11 +61,11 @@ export const MatchSiteComponent = (props) => {
         setContender2hp(100);
         setContender1won(false);
         setContender2won(false);
-        history.push("/match/" + String(parseInt(currentMatch.id) - 1));
+        navigate("/match/" + String(parseInt(currentMatch.id) - 1));
     };
 
     const goBack = () => {
-        history.push("/tournament");
+        navigate("/tournament");
     };
 
     const sleep = async (ms) => {

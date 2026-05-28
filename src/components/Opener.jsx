@@ -1,14 +1,12 @@
-import React from "react";
-import CSVReader from "react-csv-reader";
-import { useHistory } from "react-router-dom";
-import "../styles/main.css";
+import CSVReader from "./CSVReader";
+import { useNavigate } from "react-router-dom";
 import OpenerStyle from "../styles/opener-style.module.css";
 
 export const Opener = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const startTournament = () => {
-        history.push("/tournament");
+        navigate("/tournament");
     };
 
     const alertMissingFiles = () => {

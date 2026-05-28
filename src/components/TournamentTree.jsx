@@ -1,14 +1,12 @@
-import React from "react";
 import MatchComponent from "./MatchComponent";
-import { useHistory } from "react-router-dom";
-import "../styles/main.css";
+import { useNavigate } from "react-router-dom";
 import TournamentTreeStyle from "../styles/tournament-tree-style.module.css";
 
 export const TournamentTree = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const endTournament = () => {
         if (window.confirm("Are you sure you want to end this tournament?")) {
-            history.push("/");
+            navigate("/");
         }
     };
 
@@ -20,7 +18,7 @@ export const TournamentTree = (props) => {
         let current_match = -1;
         let columnNumber = 1;
 
-        const renderedTree = tournamentTree.tree.map((match, index) => {
+        const renderedTree = tournamentTree.tree.map((match) => {
             current_match++;
 
             let stylingItem = {
